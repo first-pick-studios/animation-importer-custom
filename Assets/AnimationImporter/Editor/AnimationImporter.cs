@@ -74,7 +74,7 @@ namespace AnimationImporter
 		}
 
 		private RuntimeAnimatorController _baseController = null;
-		public RuntimeAnimatorController baseController
+		public RuntimeAnimatorController BaseController
 		{
 			get
 			{
@@ -85,6 +85,20 @@ namespace AnimationImporter
 				if (_baseController != value)
 				{
 					_baseController = value;
+					SaveUserConfig();
+				}
+			}
+		}
+		
+		private AnimatorOverrideController _overrideController = null;
+		public AnimatorOverrideController OverrideController
+		{
+			get { return _overrideController; }
+			set
+			{
+				if (_overrideController != value)
+				{
+					_overrideController = value;
 					SaveUserConfig();
 				}
 			}
@@ -173,20 +187,22 @@ namespace AnimationImporter
 					_baseController = AssetDatabase.LoadAssetAtPath<RuntimeAnimatorController>(baseControllerPath);
 				}
 			}
+			
+			if (PlayerPrefs.HasKey(PREFS_PREFIX + "overrideControllerPath"))
+			{
+				string overrideControllerPath = PlayerPrefs.GetString(PREFS_PREFIX + "overrideControllerPath");
+				if (!string.IsNullOrEmpty(overrideControllerPath))
+				{
+					_overrideController = AssetDatabase.LoadAssetAtPath<AnimatorOverrideController>(overrideControllerPath);
+				}
+			}
 		}
 
 		private void SaveUserConfig()
 		{
 			PlayerPrefs.SetString(PREFS_PREFIX + "asepritePath", _asepritePath);
-
-			if (_baseController != null)
-			{
-				PlayerPrefs.SetString(PREFS_PREFIX + "baseControllerPath", AssetDatabase.GetAssetPath(_baseController));
-			}
-			else
-			{
-				PlayerPrefs.SetString(PREFS_PREFIX + "baseControllerPath", "");
-			}
+			PlayerPrefs.SetString(PREFS_PREFIX + "baseControllerPath", _baseController != null ? AssetDatabase.GetAssetPath(_baseController) : "");
+			PlayerPrefs.SetString(PREFS_PREFIX + "overrideControllerPath", _overrideController != null ? AssetDatabase.GetAssetPath(_overrideController) : "");
 		}
 
 		// ================================================================================
@@ -245,7 +261,7 @@ namespace AnimationImporter
 			return ImportJob(job);
 		}
 
-		private void Import(AnimationImportJob[] jobs)
+		public void Import(AnimationImportJob[] jobs)
 		{
 			if (jobs == null || jobs.Length == 0)
 			{
@@ -362,13 +378,11 @@ namespace AnimationImporter
 
 		private void CreateAnimatorOverrideController(ImportedAnimationSheet animations, bool useExistingBaseController = false)
 		{
-			AnimatorOverrideController overrideController;
-
 			string directory = sharedData.animationControllersTargetLocation.GetAndEnsureTargetDirectory(animations.assetDirectory);
 
 			// check if override controller already exists; use this to not loose any references to this in other assets
 			string pathForOverrideController = directory + "/" + animations.name + ".overrideController";
-			overrideController = AssetDatabase.LoadAssetAtPath<AnimatorOverrideController>(pathForOverrideController);
+			var overrideController = OverrideController ? OverrideController : AssetDatabase.LoadAssetAtPath<AnimatorOverrideController>(pathForOverrideController);
 
 			RuntimeAnimatorController baseController = _baseController;
 			if (useExistingBaseController && overrideController.runtimeAnimatorController != null)
@@ -395,7 +409,7 @@ namespace AnimationImporter
 				{
 					string animationName = pair.Key.name;
 					AnimationClip clip = animations.GetClipOrSimilar(animationName);
-					overrideController[animationName] = clip;
+					if (clip) overrideController[animationName] = clip;
 				}
 #else
 				var clipPairs = overrideController.clips;
@@ -736,7 +750,7 @@ namespace AnimationImporter
 		//  private methods
 		// --------------------------------------------------------------------------------
 
-		private AnimationImportJob CreateAnimationImportJob(string assetPath, string additionalCommandLineArguments = "")
+		public AnimationImportJob CreateAnimationImportJob(string assetPath, string additionalCommandLineArguments = "")
 		{
 			AnimationImportJob importJob = new AnimationImportJob(assetPath);
 
