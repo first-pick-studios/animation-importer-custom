@@ -5,7 +5,7 @@ namespace AnimationImporter
 {
 	public enum SpriteNamingScheme : int
 	{
-		Classic,			// hero 0
+		Classic,			// hero_0
 		FileAnimationZero,	// hero_idle_0, ...
 		FileAnimationOne,   // hero_idle_1, ...
 		AnimationZero,      // idle_0, ...
@@ -62,7 +62,7 @@ namespace AnimationImporter
 			switch (namingScheme)
 			{
 				case SpriteNamingScheme.Classic:
-					return "hero 0, hero 1, ... (Default)";
+					return "hero_0, hero_1, ... (Default)";
 				case SpriteNamingScheme.FileAnimationZero:
 					return "hero_idle_0, hero_idle_1, ...";
 				case SpriteNamingScheme.FileAnimationOne:

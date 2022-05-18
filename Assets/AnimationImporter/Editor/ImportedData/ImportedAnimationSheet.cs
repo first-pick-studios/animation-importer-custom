@@ -345,7 +345,7 @@ namespace AnimationImporter
 			{
 				for (int i = 0; i < frames.Count; i++)
 				{
-					frames[i].name = name + " " + i.ToString();
+					frames[i].name = name + NAME_DELIMITER + i.ToString();
 				}
 			}
 			else
