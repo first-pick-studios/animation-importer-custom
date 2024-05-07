@@ -1,12 +1,16 @@
 {
-    "name": "com.talecrafter.animationimporter",
-    "version": "1.5.1",
-    "displayName": "Animation Importer",
-    "author": {
-        "name": "Stephan Hövelbrinks",
-        "url": "https://github.com/talecrafter/AnimationImporter"
-    },
-    "unity": "2020.2",
-    "description": "An Aseprite and PyxelEdit Animation Importer for Unity",
-    "hideInEditor": false
+  "name": "com.talecrafter.animationimporter",
+  "version": "1.5.1",
+  "displayName": "Animation Importer",
+  "author": {
+    "name": "Stephan Hövelbrinks",
+    "url": "https://github.com/talecrafter/AnimationImporter"
+  },
+  "unity": "2020.2",
+  "description": "An Aseprite and PyxelEdit Animation Importer for Unity",
+  "hideInEditor": false,
+  "dependencies": {
+    "com.unity.modules.ui": "1.0.0",
+    "com.unity.2d.sprite": "1.0.0"
   }
+}

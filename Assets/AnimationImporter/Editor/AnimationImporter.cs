@@ -209,7 +209,7 @@ namespace AnimationImporter
 		//  import methods
 		// --------------------------------------------------------------------------------
 
-		public void ImportAssets(DefaultAsset[] assets, ImportAnimatorController importAnimatorController = ImportAnimatorController.None)
+		public void ImportAssets(Texture2D[] assets, ImportAnimatorController importAnimatorController = ImportAnimatorController.None)
 		{
 			List<AnimationImportJob> jobs = new List<AnimationImportJob>();
 
@@ -606,7 +606,7 @@ namespace AnimationImporter
 		}
 
 		// check if there is a configured importer for the specified extension
-		public static bool IsConfiguredForAssets(DefaultAsset[] assets)
+		public static bool IsConfiguredForAssets(Texture2D[] assets)
 		{
 			foreach (var asset in assets)
 			{

@@ -302,7 +302,7 @@ namespace AnimationImporter
         {
             ShowHeadline("Animations");
 
-            DefaultAsset[] droppedAssets = ShowDropButton<DefaultAsset>(importer.canImportAnimations, AnimationImporter.IsValidAsset);
+            Texture2D[] droppedAssets = ShowDropButton<Texture2D>(importer.canImportAnimations, AnimationImporter.IsValidAsset);
             if (droppedAssets != null && droppedAssets.Length > 0)
             {
                 ImportAssetsOrError(droppedAssets);
@@ -313,7 +313,7 @@ namespace AnimationImporter
         {
             ShowHeadline("Animator Controller + Animations");
 
-            DefaultAsset[] droppedAssets = ShowDropButton<DefaultAsset>(importer.canImportAnimations, AnimationImporter.IsValidAsset);
+            Texture2D[] droppedAssets = ShowDropButton<Texture2D>(importer.canImportAnimations, AnimationImporter.IsValidAsset);
             if (droppedAssets != null && droppedAssets.Length > 0)
             {
                 ImportAssetsOrError(droppedAssets, ImportAnimatorController.AnimatorController);
@@ -328,14 +328,14 @@ namespace AnimationImporter
             importer.OverrideController =
                 EditorGUILayout.ObjectField("Fill override Controller:", importer.OverrideController, typeof(AnimatorOverrideController), false) as AnimatorOverrideController;
 
-            DefaultAsset[] droppedAssets = ShowDropButton<DefaultAsset>(importer.canImportAnimationsForOverrideController, AnimationImporter.IsValidAsset);
+            Texture2D[] droppedAssets = ShowDropButton<Texture2D>(importer.canImportAnimationsForOverrideController, AnimationImporter.IsValidAsset);
             if (droppedAssets != null && droppedAssets.Length > 0)
             {
                 ImportAssetsOrError(droppedAssets, ImportAnimatorController.AnimatorOverrideController);
             }
         }
 
-        private void ImportAssetsOrError(DefaultAsset[] assets, ImportAnimatorController importAnimatorController = ImportAnimatorController.None)
+        private void ImportAssetsOrError(Texture2D[] assets, ImportAnimatorController importAnimatorController = ImportAnimatorController.None)
         {
             if (AnimationImporter.IsConfiguredForAssets(assets))
             {
